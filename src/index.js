@@ -15,7 +15,7 @@ export default class App extends Component {
       { id: 1, text: 'Estudar React Native' },
     ],
   };
-
+  
   addTodo = () =>{
     this.setState({ 
       todos: [ ...this.state.todos, {id: Math.random(), text: 'Estudar JS'}],
