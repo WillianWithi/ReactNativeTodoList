@@ -1,44 +1,82 @@
 import React, { Component } from 'react';
-import { 
-  Text, 
+import {
+  Text,
   View,
   StyleSheet,
-  Button
+  ScrollView,
+  Button,
+  StatusBar,
+  Dimensions,
+  TextInput,
  } from 'react-native';
 
-import Todo from './components/Todo'
+import TodoList from './components/TodoList'
 
-export default class App extends Component { 
-  state = {
-    todos: [
-      { id: 0, text: 'Fazer café' },
-      { id: 1, text: 'Estudar React Native' },
-    ],
-  };
-  
-  addTodo = () =>{
-    this.setState({ 
-      todos: [ ...this.state.todos, {id: Math.random(), text: 'Estudar JS'}],
-    });
-  } 
-  
+
+const { heigh, width } = Dimensions.get('window');
+export default class App extends Component {
+   state = {
+     newTodoItem: '',
+   };
+
+   addTodo = textValue => {
+      this.setState({
+          newTodoItem: textValue
+      });
+   };
+
+
   render() {
     return (
+
       <View style={styles.container}>
-        {this.state.todos.map( todo => (
-          <Todo key={todo.id} title={todo.text} />
-        ))}
-        <Button title="Adicionar todo" onPress={this.addTodo} />
+        <Text style={styles.appTitle}>Todo List</Text>
+        <View style={styles.card}>
+        <TextInput
+            style={styles.input}
+            placeholder={'Adicionar Tarefa!'}
+            value={this.newTodoItem}
+            onChangeText={this.addTodo}
+            placeholderTextColor={'#999'}
+            returnKeyType={'done'}
+            autoCorrect={false}/>
+            <ScrollView>
+              <TodoList />
+            </ScrollView>
+        </View>
+        <StatusBar barStyle="light-content" />
       </View>
     );
   }
-} 
+}
 
 const styles = StyleSheet.create({
     container:{
       flex:1,
-      justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: '#F5FCFF',
+      backgroundColor: '#f23657',
     },
+
+    appTitle: {
+      color: '#fff',
+      fontSize: 36,
+      marginTop: 60,
+      marginBottom: 30,
+      fontWeight: '300'
+    },
+
+    card: {
+      backgroundColor: '#fff',
+      flex: 1,
+      width: width - 25,
+      borderTopLeftRadius: 10,
+      borderTopRightRadius: 10,
+    },
+
+    input: {
+      padding: 20,
+      borderBottomColor: '#bbb',
+      borderBottomWidth: 1,
+      fontSize: 24
+    }
 });
